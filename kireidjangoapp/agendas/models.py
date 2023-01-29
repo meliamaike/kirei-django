@@ -1,18 +1,14 @@
+import datetime
 from django.db import models
 from professionals.models import Professional
 
-# Este modelo tendría información sobre los horarios 
-# de trabajo de cada profesional, como el día de la 
-# semana y el rango de horas.
 """
-Un profesional puede tener varias agendas, pero cada agenda solo 
-pertenece a un profesional. Esto se logra mediante una relación muchos a uno
+Un profesional tiene una Agenda por dia
 """
 
 class Agenda(models.Model):
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE)
-    start_day = models.DateField()
-    end_day = models.DateField()
+    day = models.DateField()
     start_time = models.CharField(max_length=5, choices=[
         ('8:00', '8:00 AM'),
         ('8:30', '8:30 AM'),
@@ -66,5 +62,9 @@ class Agenda(models.Model):
         ('20:00', '20:00 PM'),
     ])
     available = models.BooleanField(default=True)
+
+    
+    
+
 
 
