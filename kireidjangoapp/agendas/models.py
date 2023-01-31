@@ -3,7 +3,7 @@ from django.db import models
 from professionals.models import Professional
 
 """
-Un profesional tiene una Agenda por dia
+Un profesional tiene una Agenda por dia, es decir, tiene MUCHAS AGENDAS.
 """
 
 class Agenda(models.Model):

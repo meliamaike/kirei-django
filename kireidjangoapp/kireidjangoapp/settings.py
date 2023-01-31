@@ -33,14 +33,19 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
      # Other apps
     "phonenumber_field",
+    # My Models
     "agendas.apps.AgendasConfig",
     "appointments.apps.AppointmentsConfig",
     "customers.apps.CustomersConfig",
+    "invoices.apps.InvoicesConfig",
+    "orders.apps.OrdersConfig",
     "payments.apps.PaymentsConfig",
     "products.apps.ProductsConfig",
     "professionals.apps.ProfessionalsConfig",
     "services.apps.ServicesConfig",
     "shoppingcarts.apps.ShoppingcartsConfig",
+    "statistic.apps.StatisticConfig",
+    # Django 
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

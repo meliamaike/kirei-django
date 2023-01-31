@@ -3,7 +3,7 @@ from django.db import models
 from django.forms import ValidationError
 from services.models import Service
 from professionals.models import Professional
-from customers.models import Customer
+from shoppingcarts.models import ShoppingCart
 from agendas.models import Agenda
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -18,7 +18,7 @@ class AppointmentSlot(models.Model):
     booked = models.BooleanField(default=False)
 
 class Appointment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     profesional = models.ForeignKey(Professional, on_delete=models.CASCADE)
     appointment_slot = models.OneToOneField(AppointmentSlot, on_delete=models.CASCADE, related_name='appointment')
