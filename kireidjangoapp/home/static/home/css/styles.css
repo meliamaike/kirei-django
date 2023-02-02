@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+
+}
+
+
+body {
+    margin: 0;
+    background-color: #e4e0e1 !important;
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a :hover {
+    color: black;
+}
+
+/* Navbar */
+.navbar navbar-expand-lg bg-light mb-3 {
+    background-color: #e4e0e1;
+    font-family: Montserrat, sans-serif;
+
+}
+
+.navbar-brand>img {
+    max-width: 33% !important;
+}
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+}
+
+#navbarNav3 ul li{
+    margin-left: 15px !important; 
+}
+
+
+/* Carousel */
+.carousel-item {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-caption h4, h3 {
+    margin-bottom: 194px;
+    font-family: Montserrat, sans-serif;
+}
+
+/*Mision*/
+#mission-title{
+    padding: 15% 10%;
+    font-family: Montserrat, sans-serif;
+    background-color:#d36378 ;
+    color: #e4e0e1;
+    
+
+}
+/* Servicios */
+
+#servicios {
+    padding-top: 45px;
+    padding-bottom: 30px;
+    background-color: #d36378;
+    font-family: 'Montserrat', sans-serif;
+    color: #e4e0e1;
+
+}
+
+#servicios h2{
+    padding-bottom: 45px;
+    font-size: 35px;
+    font-weight: 600;
+    
+
+}
+.thumbnail {
+    padding: 0 0 15px 0;
+    border: none;
+    border-radius: 0;
+}
+
+.thumbnail img {
+    width: 400px;
+    height: 255px;
+    margin-bottom: 10px;
+}
+
+
+
+/* Login */
+
+#login-seccion, #registrar-seccion, #olvido-seccion, #reset-seccion{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+/*ContactForm */
+textarea.form-control{
+    height: 105px !important;
+}
+
+#contact-title{
+    background-color:  #d98b9d;
+    color: #472333;
+}
+#contact-form-div-form{
+    padding: 4em;
+    background-color: #d98b9d;
+    color: #472333;
+    font-weight: 500;
+}
+
+h2.card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px !important;
+}
+
+
+/*Footer*/
+
+.footer-brand>img  {
+    max-width: 18%;
+    max-height: 18%;
+}
+
+.widget-title-uppercase {
+    text-transform: uppercase!important;
+  }
+
+.social-icon {
+    font-size: 1.5em!important;
+    color: #e4e0e1!important;
+    margin: 2px 0px!important;
+  }
+
+.footer-copyright{
+    font-size: 0.85em;
+    background: #e4e0e1 !important;
+}
