@@ -32,10 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-     # Other apps
-    'crispy_forms',
+    # Other apps
+    "crispy_forms",
     "phonenumber_field",
-    # My Models
+    # My Apps
     "agendas.apps.AgendasConfig",
     "appointments.apps.AppointmentsConfig",
     "customers.apps.CustomersConfig",
@@ -48,13 +48,18 @@ INSTALLED_APPS = [
     "services.apps.ServicesConfig",
     "shoppingcarts.apps.ShoppingcartsConfig",
     "statistic.apps.StatisticConfig",
-    # Django 
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Django Allauth
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
 
 MIDDLEWARE = [
@@ -67,6 +72,32 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# For Allauth
+AUTHENTICATION_BACKENDS = [
+    
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+ACCOUNT_FORMS = {
+'signup': 'customers.forms.RegisterForm',
+'login': 'customers.forms.IngresarForm',
+}
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGOUT_REDIRECT_URL ='/'
+LOGIN_REDIRECT_URL = '/profile' 
 ROOT_URLCONF = "kireidjangoapp.urls"
 
 TEMPLATES = [
@@ -129,12 +160,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+SITE_ID = 1
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-
 
 
 # Default primary key field type
@@ -143,7 +175,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CRISPY FORMS
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 

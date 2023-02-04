@@ -51,7 +51,6 @@ class Customer(AbstractBaseUser):
     area_code = models.CharField(max_length=5)
     phone_number = PhoneNumberField()
     password = models.CharField(max_length=255)
-    #profile_image = models.ImageField(upload_to='customers/')
     profile_image = models.ImageField(
         verbose_name="Foto de perfil",
         max_length=255,

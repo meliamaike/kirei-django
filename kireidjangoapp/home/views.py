@@ -6,7 +6,6 @@ from django.core.mail import send_mail, BadHeaderError
 
 
 def index(request):
-    #return render(request, "home/index.html")
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -27,3 +26,4 @@ def index(request):
     else:
         form = ContactForm()
     return render(request, "home/index.html", {"form": form})
+
