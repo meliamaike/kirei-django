@@ -10,6 +10,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field
+from customers.models import Customer
+from django.db.models.query_utils import Q
+
 
 def register(request):
     user = request.user
@@ -60,23 +63,18 @@ def login(request):
 
 
 # Cerrar sesion
-def logout_request(request):
+def logout(request):
     logout(request)
-    messages.info(request, "Ha cerrado sesion correctamente.")
-    return redirect("/")
-
-
-def homepage(request):
-    return render(request=request, template_name="home.html")
-
+    messages.info(request, "Ha cerrado sesión correctamente.")
+    return redirect("home:index")
 
 # Olvido de contraseña
-def password_reset_request(request):
+def password_reset(request):
     if request.method == "POST":
         password_reset_form = PasswordResetForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data["email"]
-            associated_users = User.objects.filter(Q(email=data))
+            associated_users = Customer.objects.filter(Q(email=data))
             if associated_users.exists():
                 for user in associated_users:
                     subject = "Cambio de contraseña"
@@ -84,7 +82,7 @@ def password_reset_request(request):
                     c = {
                         "email": user.email,
                         "domain": "127.0.0.1:8000",
-                        "site_name": "Estetica Milagros Veliz",
+                        "site_name": "Kirei estética",
                         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                         "user": user,
                         "token": default_token_generator.make_token(user),
@@ -95,26 +93,25 @@ def password_reset_request(request):
                         send_mail(
                             subject,
                             email,
-                            "hola@milve.com",
+                            "hola@kirei.com",
                             [user.email],
                             fail_silently=False,
                         )
                     except BadHeaderError:
-                        return HttpResponse("Se encontro una cabecera invalida..")
+                        return HttpResponse("Se encontró una cabecera invalida..")
                     # return redirect("/password_reset/done/")
                     messages.success(
                         request,
-                        "Se te ha enviado un e-mail con las instrucciones para poder resetear la contraseña.",
+                        "Te enviamos un e-mail con las instrucciones para poder cambiar la contraseña.",
                     )
-                    return redirect("app:index")
+                    return redirect("home:index")
     password_reset_form = PasswordResetForm()
     return render(
         request=request,
-        template_name="password/password_reset.html",
+        template_name="customers/password/password_reset.html",
         context={"password_reset_form": password_reset_form},
     )
 
 
-def RegisterView(request):
-    return render(request, "register.html")
+
 

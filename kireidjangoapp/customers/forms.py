@@ -3,11 +3,11 @@ from .models import Customer
 from django.contrib.auth import password_validation, login, authenticate
 from allauth.account.forms import SignupForm, LoginForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column, Div, Field, HTML
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 
-
+#Form de registro
 class RegisterForm(SignupForm):
     first_name = forms.CharField(label= "Nombre", max_length=30, required=True)
     last_name = forms.CharField(label = "Apellido", max_length=30, required=True)
@@ -90,6 +90,7 @@ class RegisterForm(SignupForm):
             customer.save()
             return customer
 
+#Form de Login
 class IngresarForm(LoginForm):
     remember = forms.BooleanField(required=False, widget=forms.CheckboxInput)
     
