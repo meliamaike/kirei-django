@@ -7,5 +7,3 @@ class AppointmentsConfig(AppConfig):
 
     def ready(self):
         import appointments.signals
-
-

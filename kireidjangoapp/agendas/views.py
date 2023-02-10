@@ -11,4 +11,3 @@ from django.shortcuts import render
 #     else:
 #         form = AgendaForm()
 #     return render(request, 'create_agenda.html', {'form': form})
-

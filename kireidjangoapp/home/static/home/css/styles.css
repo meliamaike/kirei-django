@@ -25,6 +25,7 @@ a :hover {
 
 /* Navbar */
 
+
 .navbar.navbar-fixed-top {
     position: fixed;
     top: 0;
@@ -51,10 +52,6 @@ a :hover {
     margin-left: 15px !important; 
 }
 
-/* #login-seccion, #registrar-seccion, #olvido-seccion, #reset-seccion{
-    margin-top: 50px;
-    margin-bottom: 50px;
-} */
 
 .btn-booking {
     font-weight: 500;

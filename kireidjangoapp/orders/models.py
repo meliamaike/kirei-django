@@ -2,6 +2,7 @@ from django.db import models
 from shoppingcarts.models import ShoppingCart
 from customers.models import Customer
 
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     shopping_cart = models.OneToOneField(ShoppingCart, on_delete=models.CASCADE)

@@ -1,11 +1,20 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from .forms import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 
+from customers.forms import RegisterForm
+
+
+
+
+
+
+ 
 
 
 def index(request):
+    contact_form = ContactForm()
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -21,9 +30,12 @@ def index(request):
             try:
                 send_mail(subject, message, "admin@example.com", ["admin@example.com"])
             except BadHeaderError:
-                return HttpResponse("Se encontró un header inválido.")
-            return redirect('index')
-    else:
-        form = ContactForm()
-    return render(request, "home/index.html", {"form": form})
+                return HttpResponse("Invalid header found.")
+            return redirect("home:index")
+    context = {
+        
+        'contact_form': contact_form
+    }
+    return render(request, 'home/index.html', context)   
+
 

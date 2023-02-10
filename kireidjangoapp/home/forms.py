@@ -8,15 +8,17 @@ class ContactForm(forms.Form):
     last_name = forms.CharField(max_length=50, label="Apellido")
     email = forms.EmailField(max_length=150, label="E-mail")
     message = forms.CharField(widget=forms.Textarea, max_length=2000, label="Mensaje")
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            'first_name',
-            'last_name',
-            'email',
-            'message',
-            Submit('submit', 'Enviar', css_class='btn btn-primary mt-3')
+            "first_name",
+            "last_name",
+            "email",
+            "message",
+            Submit("submit", "Enviar", css_class="btn btn-primary mt-3"),
         )
+
     class Meta:
-        template = 'crispy_forms/field.html'
+        template = "crispy_forms/field.html"

@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.contrib import messages
-from .forms import RegisterForm, IngresarForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
@@ -14,59 +13,21 @@ from customers.models import Customer
 from django.db.models.query_utils import Q
 
 
-def register(request):
-    user = request.user
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-            messages.success(request, "Se ha registrado exitosamente.")
-            return redirect("/")
-        messages.error(request, "Error.")
-    form = RegisterForm()
-    return render(
-        request=request, template_name="customers/register.html", context={"register_form": form}
-    )
-
-
-def login(request):
-    if request.method == 'POST':
-        form = IngresarForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('login')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                remember_me = request.POST.get('remember', False)
-                if remember_me:
-                    request.session.set_expiry(30 * 24 * 60 * 60) # 30 days
-                else:
-                    request.session.set_expiry(0) # Session ends when the user closes their browser
-                return redirect('home')
-            else:
-                form.add_error(None, 'Invalid Login Credentials')
-    else:
-        form = IngresarForm()
-
-    form.helper = FormHelper()
-    form.helper.form_method = 'post'
-    form.helper.layout = Layout(
-        Field('login', placeholder='', autofocus="", label="Email"),
-        Field('password', placeholder='', label="Contraseña"),
-        Field('remember', label="Recuérdame"),
-    )
-
-    context = {'login_form': form}
-    return render(request, 'customers/login.html', context)
 
 
 # Cerrar sesion
-def logout(request):
+def logout_view(request):
     logout(request)
     messages.info(request, "Ha cerrado sesión correctamente.")
     return redirect("home:index")
+
+
+ 
+
+
+
+
+
 
 # Olvido de contraseña
 def password_reset(request):
@@ -111,7 +72,3 @@ def password_reset(request):
         template_name="customers/password/password_reset.html",
         context={"password_reset_form": password_reset_form},
     )
-
-
-
-
