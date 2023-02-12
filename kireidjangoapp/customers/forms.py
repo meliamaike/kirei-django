@@ -1,12 +1,20 @@
 from django import forms
-from .models import Customer
-from django.contrib.auth import password_validation, login, authenticate
+from customers.models import Customer
+from django.contrib.auth import authenticate, get_user_model
 
-# from allauth.account.forms import SignupForm, LoginForm
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.db.models.query_utils import Q
+
+from django import forms
+from django.contrib.auth import authenticate
+
+
+from customers.backends import EmailOrUsernameModelBackend
 
 
 # Form de registro
@@ -32,10 +40,11 @@ class RegisterForm(UserCreationForm):
     password2 = forms.CharField(label="Confirmá tu contraseña", strip=False)
 
     class Meta:
-        model = Customer
+        model = get_user_model()
         fields = (
             "first_name",
             "last_name",
+            "username",
             "document_type",
             "document_number",
             "email",
@@ -103,29 +112,24 @@ class RegisterForm(UserCreationForm):
 # Form de Login
 
 
-class AccountAuthenticationForm(forms.ModelForm):
 
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
-    class Meta:
-        model = Customer
-        fields = ("email", "password")
+
+UserModel = get_user_model()
+
+
+
+class CustomerLoginForm(forms.Form):
+    email = forms.CharField(label='email')
+    password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self):
-        if self.is_valid():
-            email = self.cleaned_data["email"]
-            password = self.cleaned_data["password"]
-            if not authenticate(email=email, password=password):
-                raise forms.ValidationError("Invalid login")
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        return self.cleaned_data
 
 
-# class IngresarForm(AuthenticationForm):
 
-#     username = forms.CharField(label='Email / Username')
-
-
-# password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-# remember = forms.BooleanField(required=False, widget=forms.CheckboxInput)
 
 # def __init__(self, *args, **kwargs):
 #     super().__init__(*args, **kwargs)

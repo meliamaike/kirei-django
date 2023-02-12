@@ -65,8 +65,8 @@
               <div class="mb-3">
              
                     {% csrf_token %}
-                    {% crispy login_form %}
-                    {% comment %} {{ form.as_p }} {% endcomment %}
+                    {% comment %} {% crispy login_form %} {% endcomment %}
+                    {{ form.as_p }}
                     <div class="mb-3 ">
                         <a href="{% url 'customers:password_reset'%}" class="float-start">
                             Olvidé mi contraseña

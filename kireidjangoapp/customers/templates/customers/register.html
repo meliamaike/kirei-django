@@ -43,8 +43,8 @@
           {% load crispy_forms_tags %}
           <form action="{% url 'customers:register' %}" method="POST">
             {% csrf_token %}
-            {% crispy register_form %}
-            {% comment %} {{ form.as_p }} {% endcomment %}
+            {% comment %} {% crispy register_form %} {% endcomment %}
+            {{ form.as_p }}
             <button type="submit" class="btn btn-primary ms-auto">
               Registrarme
           </button>

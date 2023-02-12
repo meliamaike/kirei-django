@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -13,20 +13,49 @@ from customers.models import Customer
 from django.db.models.query_utils import Q
 
 
+from customers.forms import RegisterForm,CustomerLoginForm
 
+from customers.backends import EmailOrUsernameModelBackend
+
+def signup(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password1')
+            user = EmailOrUsernameModelBackend.authenticate(request,username=email, password=password)
+            print("Luego del authenticate: ",user)
+            login(request, user, backend="customers.backends.EmailOrUsernameModelBackend")
+            return redirect('home:index')
+        else:
+            print(form.errors)
+    else:
+            form = RegisterForm()
+    return render(request, 'customers/register.html', {'form': form})
+
+def customer_login(request):
+    if request.method == 'POST':
+        form = CustomerLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = EmailOrUsernameModelBackend.authenticate(request,username=username, password=password)
+            print(user)
+            if user is not None:
+                login(request, user,backend="customers.backends.EmailOrUsernameModelBackend")
+                return redirect('home:index')
+        else:
+            print(form.errors)
+    else:
+        form = CustomerLoginForm()
+    return render(request, 'customers/login.html', {'form': form})
 
 # Cerrar sesion
 def logout_view(request):
     logout(request)
     messages.info(request, "Ha cerrado sesión correctamente.")
     return redirect("home:index")
-
-
- 
-
-
-
-
 
 
 # Olvido de contraseña
