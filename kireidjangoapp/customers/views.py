@@ -14,42 +14,44 @@ from django.db.models.query_utils import Q
 
 
 from customers.forms import RegisterForm,CustomerLoginForm
+from django.contrib.auth import authenticate
 
-from customers.backends import EmailOrUsernameModelBackend
 
-def signup(request):
-    if request.method == 'POST':
+
+from django.shortcuts import render, redirect
+
+def signup_view(request):
+    if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password1')
-            user = EmailOrUsernameModelBackend.authenticate(request,username=email, password=password)
-            print("Luego del authenticate: ",user)
-            login(request, user, backend="customers.backends.EmailOrUsernameModelBackend")
-            return redirect('home:index')
-        else:
-            print(form.errors)
+            customer = form.signup()
+            return redirect("home:index")
     else:
-            form = RegisterForm()
-    return render(request, 'customers/register.html', {'form': form})
+        form = RegisterForm()
+    return render(request, "customers/register.html", {"form": form})
+
 
 def customer_login(request):
     if request.method == 'POST':
         form = CustomerLoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('email')
+            # Authenticate the user
+            email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = EmailOrUsernameModelBackend.authenticate(request,username=username, password=password)
-            print(user)
+            user = authenticate(request, username=email, password=password)
             if user is not None:
-                login(request, user,backend="customers.backends.EmailOrUsernameModelBackend")
+                # Log the user in
+                login(request, user)
+                # Redirect to a success page
                 return redirect('home:index')
-        else:
-            print(form.errors)
+            else:
+                # Return an 'invalid login' error message
+                form.add_error(None, 'Invalid login')
     else:
         form = CustomerLoginForm()
     return render(request, 'customers/login.html', {'form': form})
+
+
 
 # Cerrar sesion
 def logout_view(request):
